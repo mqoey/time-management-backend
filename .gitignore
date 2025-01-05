@@ -1,0 +1,29 @@
+# Python related
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.db
+*.sqlite3
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Flask-related
+instance/
+*.log
+
+# IDE / Editor related
+.vscode/
+.idea/
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.bak
