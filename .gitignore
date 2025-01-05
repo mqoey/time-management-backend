@@ -27,3 +27,6 @@ Thumbs.db
 
 # Miscellaneous
 *.bak
+
+# Environment variables
+.env
