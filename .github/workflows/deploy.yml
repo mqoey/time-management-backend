@@ -1,0 +1,39 @@
+name: Deploy to Render on Release
+
+on:
+  release:
+    types: [published]  # Trigger this workflow when a release is published
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'  # Use the appropriate Python version for your Flask project
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Install Flask and other dependencies
+
+      # Step 4: Authenticate with Render API (using GitHub secrets)
+      - name: Authenticate with Render API
+        run: |
+          curl -sSL https://render.com/deploy/github-action > render-deploy.sh
+          chmod +x render-deploy.sh
+          ./render-deploy.sh --api-key ${{ secrets.RENDER_API_KEY }} --service-id ${{ secrets.RENDER_SERVICE_ID }}
+
+      # Step 5: Trigger the deployment to Render
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
