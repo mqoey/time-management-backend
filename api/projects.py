@@ -23,6 +23,7 @@ class ProjectList(Resource):
     @projects_ns.doc(description="Create a new project")
     def post(self):
         data = request.get_json()
+
         name = data.get('name')
         color = data.get('color')
 
@@ -46,10 +47,12 @@ class ProjectDetail(Resource):
     @projects_ns.doc(description="Update an existing project by ID")
     def put(self, id):
         data = request.get_json()
+
         project = Project.query.get_or_404(id)
         project.name = data.get('name', project.name)
         project.color = data.get('color', project.color)
         db.session.commit()
+
         return project.to_dict(), 200
 
     @projects_ns.doc(description="Delete a project by ID")
@@ -57,4 +60,5 @@ class ProjectDetail(Resource):
         project = Project.query.get_or_404(id)
         db.session.delete(project)
         db.session.commit()
+
         return {'message': 'Project deleted successfully'}, 200

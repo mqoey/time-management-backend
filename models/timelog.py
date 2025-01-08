@@ -1,6 +1,8 @@
 from models import db
 
 class TimeLog(db.Model):
+    __tablename__ = 'time_log'
+
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     hours = db.Column(db.Float, nullable=False)
